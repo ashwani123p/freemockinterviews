@@ -1,394 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Schedule free System Design and low-cost DSA mock interviews with panelists working at top MNCs. Real feedback, real growth." />
-  <title>MockReady — Mock Interviews with MNC Panelists</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #ffffff;
-      --bg-2: #f6f7f9;
-      --card: #ffffff;
-      --card-hover: #fbfcfe;
-      --text: #0f1729;
-      --muted: #5a6478;
-      --accent: #f0624a;
-      --accent-soft: #ff9166;
-      --accent-2: #0ea472;
-      --accent-3: #e08600;
-      --border: rgba(15, 23, 41, 0.10);
-      --shadow: 0 14px 40px rgba(15, 23, 41, 0.08);
-      --shadow-sm: 0 4px 16px rgba(15, 23, 41, 0.05);
-      --radius: 18px;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Schedule free System Design and low-cost DSA mock interviews with panelists working at top MNCs. Real feedback, real growth." />
+<title>MockReady — Mock Interviews with MNC Panelists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --paper-deep: #F6F7FA;
+    --ink: #14171C;
+    --ink-soft: #5B6472;
+    --pine: #3652C9;
+    --pine-wash: #EEF1FB;
+    --rust: #1E8A6E;
+    --rust-wash: #E8F5F0;
+    --line: #E4E7EC;
+    --note: #F5E38F;
+    --radius: 10px;
+    --measure: 62ch;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Public Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+  }
+  p { margin: 0; }
+  a { color: inherit; }
+  ul { margin: 0; padding: 0; list-style: none; }
+
+  .wrap { width: min(1080px, 92%); margin: 0 auto; }
+
+  :focus-visible {
+    outline: 2px solid var(--pine);
+    outline-offset: 3px;
+  }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: var(--radius);
+    font-family: "Public Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--pine); color: #fff; }
+  .btn-primary:hover { background: #2941A3; }
+  .btn-outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+  .btn-wa { background: var(--rust); color: #fff; }
+  .btn-wa:hover { background: #17705A; }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "Source Serif 4", serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+  .brand svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a:not(.btn) {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:not(.btn):hover { color: var(--ink); }
+  .nav-links .btn { padding: 9px 18px; font-size: 0.9rem; }
+  @media (max-width: 760px) {
+    .nav-links a:not(.btn) { display: none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 76px 0 60px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
+    letter-spacing: -0.4px;
+    max-width: 14ch;
+  }
+  .hero-lede {
+    margin-top: 20px;
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: 1.08rem;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+  .hero-facts {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .hero-facts div { min-width: 120px; }
+  .hero-facts strong {
+    display: block;
+    font-family: "Source Serif 4", serif;
+    font-size: 1.3rem;
+    color: var(--pine);
+  }
+  .hero-facts span { font-size: 0.86rem; color: var(--ink-soft); }
+
+  /* sticky note — the one signature element */
+  .note-wrap { display: flex; justify-content: center; }
+  .sticky-note {
+    background: var(--note);
+    width: min(280px, 100%);
+    padding: 26px 24px 22px;
+    transform: rotate(-3deg);
+    box-shadow: 0 10px 26px rgba(20, 23, 28, 0.14);
+    position: relative;
+  }
+  .sticky-note::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 70px;
+    height: 22px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .sticky-note .tag {
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .sticky-note p {
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: #3a2f10;
+  }
+  .sticky-note .sig {
+    display: block;
+    margin-top: 12px;
+    font-family: "Caveat", cursive;
+    font-size: 1.15rem;
+    color: #5a4a12;
+  }
+
+  /* ---------- section shells ---------- */
+  section { padding: 64px 0; }
+  .section-intro { max-width: var(--measure); margin-bottom: 40px; }
+  .section-intro h2 { font-size: clamp(1.6rem, 3.2vw, 2.1rem); }
+  .section-intro p { margin-top: 12px; color: var(--ink-soft); font-size: 1.02rem; }
+
+  /* ---------- interview cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .icard {
+    background: var(--paper-deep);
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--pine);
+    border-radius: 4px;
+    padding: 30px 28px;
+  }
+  .icard.rust { border-left-color: var(--rust); }
+  .icard .kicker {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--pine);
+    margin-bottom: 6px;
+  }
+  .icard.rust .kicker { color: var(--rust); }
+  .icard h3 { font-size: 1.4rem; margin-bottom: 10px; }
+  .icard .price {
+    font-family: "Source Serif 4", serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+  }
+  .icard .price small {
+    font-family: "Public Sans", sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .icard .desc { color: var(--ink-soft); margin-bottom: 18px; }
+  .icard ul { margin-bottom: 22px; }
+  .icard li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    color: var(--ink);
+    font-size: 0.96rem;
+  }
+  .icard li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--pine);
+  }
+  .icard.rust li::before { background: var(--rust); }
+  .icard .charity {
+    font-size: 0.86rem;
+    color: var(--pine);
+    margin-bottom: 16px;
+  }
+
+  /* ---------- why-us list ---------- */
+  .help-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 700px) { .help-list { grid-template-columns: 1fr; } }
+  .help-item {
+    padding: 24px 26px 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .help-list .help-item:nth-child(odd) { padding-right: 30px; }
+  .help-list .help-item:nth-child(even) { padding-left: 30px; border-left: 1px solid var(--line); }
+  @media (max-width: 700px) {
+    .help-list .help-item:nth-child(even) { border-left: none; padding-left: 0; }
+  }
+  .help-item h4 {
+    font-family: "Source Serif 4", serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .help-item p { color: var(--ink-soft); font-size: 0.96rem; }
+
+  /* ---------- community ---------- */
+  .community-box {
+    background: var(--pine-wash);
+    border-radius: 6px;
+    padding: 44px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .community-box { grid-template-columns: 1fr; } }
+  .community-box h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 12px; }
+  .community-box p { color: var(--ink-soft); }
+
+  /* ---------- schedule ---------- */
+  .schedule-box {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 48px;
+  }
+  .schedule-box h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin-bottom: 12px; }
+  .schedule-box > p.lede { color: var(--ink-soft); max-width: var(--measure); margin-bottom: 34px; }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+    margin-bottom: 34px;
+  }
+  @media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
+  .step-num {
+    font-family: "Source Serif 4", serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--rust);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .step p { font-size: 0.96rem; color: var(--ink-soft); }
+  .fine-print { margin-top: 26px; }
+  .fine-print p {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin-bottom: 8px;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 0 30px;
+  }
+  .foot-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+  }
+  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .foot-links a { font-size: 0.9rem; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
+  .foot-links a:hover { color: var(--ink); }
+  .copyline { font-size: 0.82rem; color: var(--ink-soft); margin-top: 22px; }
+
+  /* ---------- one deliberate entrance moment ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-anim {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.7s ease forwards;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(1000px 600px at 88% -12%, rgba(240, 98, 74, 0.07), transparent 60%),
-                  radial-gradient(900px 600px at -8% 8%, rgba(14, 164, 114, 0.06), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+    .hero-anim.d1 { animation-delay: 0.08s; }
+    .hero-anim.d2 { animation-delay: 0.16s; }
+    .hero-anim.d3 { animation-delay: 0.26s; }
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    .wrap { width: min(1120px, 92%); margin: 0 auto; }
-
-    a { color: inherit; text-decoration: none; }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 14px 26px; border-radius: 12px;
-      font-weight: 600; font-size: 1rem; cursor: pointer;
-      border: 1px solid transparent; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 22px rgba(240,98,74,.28); }
-    .btn-primary:hover { background: #e5563e; box-shadow: 0 12px 28px rgba(240,98,74,.34); }
-    .btn-ghost { background: #fff; border-color: var(--border); color: var(--text); box-shadow: var(--shadow-sm); }
-    .btn-ghost:hover { background: var(--bg-2); }
-    .btn-wa { background: #25d366; color: #073b23; font-weight: 700; box-shadow: 0 8px 22px rgba(37,211,102,.28); }
-    .btn-wa:hover { background: #1fbe5a; }
-
-    /* NAV */
-    header {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.82);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; letter-spacing: -.3px; }
-    .logo .dot { width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-soft)); }
-    .nav-links { display: flex; gap: 26px; align-items: center; }
-    .nav-links a { color: var(--muted); font-weight: 500; font-size: .95rem; transition: color .2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav .btn { padding: 10px 18px; font-size: .9rem; }
-    @media (max-width: 780px) { .nav-links a:not(.btn) { display: none; } }
-
-    /* HERO */
-    .hero { padding: 90px 0 70px; text-align: center; position: relative; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 16px; border-radius: 999px; font-size: .85rem; font-weight: 600;
-      background: rgba(240, 98, 74, 0.09); color: var(--accent);
-      border: 1px solid rgba(240, 98, 74, 0.22); margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(2.2rem, 5.5vw, 4rem); line-height: 1.08; font-weight: 800; letter-spacing: -1.5px;
-      margin-bottom: 20px;
-    }
-    .hero h1 .grad {
-      background: linear-gradient(120deg, var(--accent), var(--accent-soft));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .hero p { color: var(--muted); font-size: clamp(1rem, 2.2vw, 1.2rem); max-width: 640px; margin: 0 auto 36px; }
-    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .hero-stats { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; margin-top: 56px; }
-    .stat h3 { font-size: 2rem; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
-    .stat p { color: var(--muted); font-size: .9rem; margin: 0; }
-
-    /* SECTION SHELL */
-    section { padding: 70px 0; }
-    .section-head { text-align: center; margin-bottom: 50px; }
-    .section-head .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-size: .78rem; }
-    .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 10px 0; font-weight: 800; letter-spacing: -1px; }
-    .section-head p { color: var(--muted); max-width: 600px; margin: 0 auto; }
-
-    /* REVEAL ANIM */
-    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal.d1 { transition-delay: .1s; }
-    .reveal.d2 { transition-delay: .2s; }
-    .reveal.d3 { transition-delay: .3s; }
-
-    /* INTERVIEW CARDS */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 32px; position: relative; overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-    }
-    .card:hover { transform: translateY(-6px); border-color: rgba(240,98,74,.35); box-shadow: var(--shadow); }
-    .card .icon { width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; font-size: 1.6rem; margin-bottom: 18px; }
-    .icon.blue { background: rgba(240,98,74,.12); }
-    .icon.green { background: rgba(14,164,114,.12); }
-    .card h3 { font-size: 1.5rem; margin-bottom: 8px; letter-spacing: -.5px; }
-    .price-tag {
-      display: inline-flex; align-items: baseline; gap: 6px; margin: 6px 0 16px;
-      font-weight: 800;
-    }
-    .price-tag .amt { font-size: 2rem; letter-spacing: -1px; }
-    .price-free { color: var(--accent-2); }
-    .price-paid { color: var(--accent-3); }
-    .card ul { list-style: none; margin: 18px 0 26px; }
-    .card ul li { color: var(--muted); padding: 7px 0 7px 28px; position: relative; }
-    .card ul li::before { content: "✓"; position: absolute; left: 0; color: var(--accent-2); font-weight: 800; }
-    .card .btn { width: 100%; justify-content: center; }
-    .ribbon {
-      position: absolute; top: 18px; right: -34px; transform: rotate(45deg);
-      background: var(--accent-2); color: #fff;
-      font-weight: 700; font-size: .75rem; padding: 6px 44px; letter-spacing: 1px;
-    }
-
-    /* WHY / HELP */
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
-    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; box-shadow: var(--shadow-sm); transition: box-shadow .3s, transform .3s; }
-    .feature:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
-    .feature .fi { font-size: 1.8rem; margin-bottom: 12px; }
-    .feature h4 { font-size: 1.15rem; margin-bottom: 8px; }
-    .feature p { color: var(--muted); font-size: .95rem; }
-
-    /* TRUST STRIP */
-    .trust { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; }
-    .trust-item .ti-num { font-size: 2.4rem; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
-    .trust-item p { color: var(--muted); }
-
-    /* WHATSAPP CARD */
-    .wa-card {
-      background: linear-gradient(135deg, rgba(37,211,102,.10), rgba(16,185,129,.05));
-      border: 1px solid rgba(16,185,129,.28); border-radius: 22px;
-      padding: 46px; text-align: center; position: relative; overflow: hidden;
-    }
-    .wa-card .wa-emoji { font-size: 3rem; margin-bottom: 14px; }
-    .wa-card h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 12px; letter-spacing: -.5px; }
-    .wa-card p { color: var(--muted); max-width: 560px; margin: 0 auto 28px; }
-
-    /* SCHEDULE / FORM */
-    .schedule-box {
-      background: var(--card);
-      border: 1px solid var(--border); border-radius: 22px;
-      padding: 48px; text-align: center; box-shadow: var(--shadow);
-    }
-    .schedule-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 14px; letter-spacing: -.5px; }
-    .schedule-box p { color: var(--muted); max-width: 560px; margin: 0 auto 30px; }
-    .schedule-steps { display: flex; gap: 26px; justify-content: center; flex-wrap: wrap; margin: 0 auto 34px; max-width: 760px; }
-    .step { flex: 1 1 200px; }
-    .step .num { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 10px; font-weight: 800; background: rgba(240,98,74,.12); color: var(--accent); border: 1px solid rgba(240,98,74,.3); }
-    .step p { font-size: .92rem; margin: 0; }
-    .note { font-size: .85rem; color: var(--muted); margin-top: 18px; }
-
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 46px 0 30px; background: var(--bg-2); }
-    .foot-grid { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; align-items: center; }
-    .foot-links { display: flex; gap: 24px; flex-wrap: wrap; }
-    .foot-links a { color: var(--muted); font-weight: 500; }
-    .foot-links a:hover { color: var(--text); }
-    .copy { color: var(--muted); font-size: .85rem; margin-top: 24px; text-align: center; }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <header>
-    <div class="wrap nav">
-      <div class="logo"><span class="dot"></span> MockReady</div>
-      <nav class="nav-links">
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z" stroke="#3652C9" stroke-width="1.6"/><path d="M8 12 L11 15 L16 9" stroke="#1E8A6E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      MockReady
+    </div>
+    <nav class="nav-links">
+      <a href="#interviews">Interviews</a>
+      <a href="#why">Why this helps</a>
+      <a href="#community">Community</a>
+      <a href="#schedule" class="btn btn-primary">Book a session</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1 class="hero-anim">Practice the interview before it counts</h1>
+      <p class="hero-lede hero-anim d1">Sit with engineers who take real hiring interviews at MNCs, and leave with specific, written feedback — on System Design and on DSA — instead of a vague "you did fine."</p>
+      <div class="hero-cta hero-anim d2">
+        <a href="#schedule" class="btn btn-primary">Book a session</a>
+        <a href="#interviews" class="btn btn-outline">See what's included</a>
+      </div>
+      <div class="hero-facts hero-anim d3">
+        <div><strong>2 free</strong><span>System Design rounds</span></div>
+        <div><strong>₹100</strong><span>DSA &amp; further rounds</span></div>
+        <div><strong>1:1</strong><span>with a working MNC engineer</span></div>
+      </div>
+    </div>
+    <div class="note-wrap hero-anim d2">
+      <div class="sticky-note">
+        <span class="tag">Sample feedback note</span>
+        <p>"Solid HLD — you reasoned about trade-offs well. Next time, spend more time on partitioning before jumping to the schema."</p>
+        <span class="sig">— what a written note after your session might read like</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="interviews">
+  <div class="wrap">
+    <div class="section-intro">
+      <h2>Pick the interview you want to nail</h2>
+      <p>Every session is one-on-one with a working professional, followed by a written feedback breakdown you can actually act on.</p>
+    </div>
+    <div class="cards">
+      <div class="icard">
+        <span class="kicker">First 2 free</span>
+        <h3>System Design Interview</h3>
+        <p class="price">First 2 free <small>then ₹100 / round</small></p>
+        <p class="desc">Whiteboard a real-world system with a senior engineer and learn how top companies actually expect you to think.</p>
+        <ul>
+          <li>Scalability, trade-offs &amp; bottleneck analysis</li>
+          <li>HLD + LLD walkthrough</li>
+          <li>Communication &amp; structure coaching</li>
+          <li>Written feedback after the session</li>
+        </ul>
+        <a href="#schedule" class="btn btn-primary">Book the free round</a>
+      </div>
+
+      <div class="icard rust">
+        <span class="kicker">₹100 per session</span>
+        <h3>DSA Interview</h3>
+        <p class="price">₹100 <small>/ session</small></p>
+        <p class="desc">Solve interview-grade DSA problems live, under real pressure, with hints and optimal-approach guidance along the way.</p>
+        <ul>
+          <li>Live problem solving with a real interviewer</li>
+          <li>Time &amp; space complexity deep-dive</li>
+          <li>Approach, edge cases &amp; clean code review</li>
+          <li>An actionable improvement plan</li>
+        </ul>
+        <p class="charity">Half of every ₹100 is donated to a nearby orphanage.</p>
+        <a href="#schedule" class="btn btn-outline">Book a DSA slot</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why" style="background: var(--paper-deep);">
+  <div class="wrap">
+    <div class="section-intro">
+      <h2>How we help you get ready</h2>
+      <p>Not just a mock call — a full feedback loop built to make you measurably better before the real interview.</p>
+    </div>
+    <div class="help-list">
+      <div class="help-item">
+        <h4>Real MNC panelists</h4>
+        <p>Interviews are taken by engineers who actually conduct hiring interviews at top product companies.</p>
+      </div>
+      <div class="help-item">
+        <h4>Honest feedback</h4>
+        <p>A clear breakdown of your strengths, gaps, and exactly what to fix next — nothing sugar-coated.</p>
+      </div>
+      <div class="help-item">
+        <h4>Real interview feel</h4>
+        <p>Timed, pressure-tested sessions that mirror the format and difficulty of the real thing.</p>
+      </div>
+      <div class="help-item">
+        <h4>An improvement plan</h4>
+        <p>Leave every session knowing your next steps and exactly what to practice before you interview.</p>
+      </div>
+      <div class="help-item">
+        <h4>Doubt support</h4>
+        <p>Ask questions and clear doubts anytime through our WhatsApp community, directly with the panel.</p>
+      </div>
+      <div class="help-item">
+        <h4>Easy rescheduling</h4>
+        <p>Life happens. Reschedule your slot by pinging us in the community — no hassle, no forms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="wrap">
+    <div class="community-box">
+      <div>
+        <h2>Join the WhatsApp community</h2>
+        <p>Connect directly with the panel for doubts, rescheduling, and interview tips. Slots are coordinated here, resources are shared here, and referrals to open roles show up here too — worth staying in the loop.</p>
+      </div>
+      <div style="text-align:left;">
+        <a href="https://chat.whatsapp.com/Cp7CbosN3auKimBc0pOOmK" target="_blank" rel="noopener" class="btn btn-wa">Join the community</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="schedule-box">
+      <h2>Schedule your mock interview</h2>
+      <p class="lede">Fill the quick form and we'll confirm your slot on WhatsApp. Your first 2 System Design rounds are free; after that, it's ₹100 per round — same as DSA.</p>
+      <div class="steps">
+        <div class="step"><span class="step-num">1</span><p>Fill the scheduling form</p></div>
+        <div class="step"><span class="step-num">2</span><p>We confirm your slot on WhatsApp</p></div>
+        <div class="step"><span class="step-num">3</span><p>Attend the session and get detailed feedback</p></div>
+      </div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf-Z9XuMUzhVaW1pZOvY3xBmd73n-SiPe5wjU8mBEdDPNh5tw/viewform?usp=header" target="_blank" rel="noopener" class="btn btn-primary">Open the scheduling form</a>
+      <div class="fine-print">
+        <p>No money is taken upfront to schedule. The ₹100 fee — for DSA, and for System Design after your first 2 free rounds — is paid by QR code only after your slot is confirmed.</p>
+        <p>Half of every ₹100 DSA fee is donated to a nearby orphanage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="brand" style="font-size:1.1rem;">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z" stroke="#3652C9" stroke-width="1.6"/><path d="M8 12 L11 15 L16 9" stroke="#1E8A6E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        MockReady
+      </div>
+      <div class="foot-links">
         <a href="#interviews">Interviews</a>
-        <a href="#why">Why Us</a>
+        <a href="#why">Why this helps</a>
         <a href="#community">Community</a>
-        <a href="#schedule" class="btn btn-primary">Schedule</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap">
-      <span class="badge reveal">🎯 Panelists working at top MNCs</span>
-      <h1 class="reveal d1">Crack your next interview with<br /><span class="grad">real mock interviews</span></h1>
-      <p class="reveal d2">Practice with engineers who interview for a living. Get honest, structured feedback on System Design and DSA — so you walk into the real one already confident.</p>
-      <div class="hero-cta reveal d3">
-        <a href="#schedule" class="btn btn-primary">Schedule an Interview →</a>
-        <a href="#interviews" class="btn btn-ghost">See Options</a>
-      </div>
-      <div class="hero-stats reveal d3">
-        <div class="stat"><h3>2 Free</h3><p>System Design rounds</p></div>
-        <div class="stat"><h3>₹100</h3><p>DSA &amp; further rounds</p></div>
-        <div class="stat"><h3>MNC</h3><p>Working panelists</p></div>
+        <a href="#schedule">Schedule</a>
+        <a href="https://chat.whatsapp.com/Cp7CbosN3auKimBc0pOOmK" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
-  </section>
+    <p class="copyline">© <span id="year"></span> MockReady. Mock interviews with working MNC professionals — built for candidates, by engineers.</p>
+  </div>
+</footer>
 
-  <!-- INTERVIEW CARDS -->
-  <section id="interviews">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">Choose your track</span>
-        <h2>Pick the interview you want to nail</h2>
-        <p>Every session is 1:1 with a working professional, followed by a detailed feedback breakdown.</p>
-      </div>
-      <div class="cards">
-        <div class="card reveal d1">
-          <span class="ribbon">2 FREE</span>
-          <div class="icon blue">🧩</div>
-          <h3>System Design Interview</h3>
-          <div class="price-tag price-free"><span class="amt">First 2 Free</span><span style="font-size:.95rem;color:var(--muted)">then ₹100 / round</span></div>
-          <p style="color:var(--muted)">Whiteboard a real-world system with a senior engineer and learn how top companies expect you to think.</p>
-          <ul>
-            <li>Scalability, trade-offs &amp; bottleneck analysis</li>
-            <li>HLD + LLD walkthrough</li>
-            <li>Communication &amp; structure coaching</li>
-            <li>Written feedback after the session</li>
-          </ul>
-          <a href="#schedule" class="btn btn-primary">Schedule Free →</a>
-        </div>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-        <div class="card reveal d2">
-          <div class="icon green">⚡</div>
-          <h3>DSA Interview</h3>
-          <div class="price-tag price-paid"><span class="amt">₹100</span><span style="font-size:.95rem;color:var(--muted)">/ session</span></div>
-          <p style="color:var(--muted)">Solve interview-grade DSA problems live, under real pressure, with hints and optimal-approach guidance.</p>
-          <ul>
-            <li>Live problem solving with a real interviewer</li>
-            <li>Time &amp; space complexity deep-dive</li>
-            <li>Approach, edge cases &amp; clean code review</li>
-            <li>Actionable improvement plan</li>
-          </ul>
-          <p style="font-size:.82rem;color:var(--accent-2);margin-bottom:16px;">❤️ 50% of every ₹100 paid is donated to a nearby orphanage.</p>
-          <a href="#schedule" class="btn btn-primary">Schedule DSA →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY / HELP -->
-  <section id="why">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">What you get</span>
-        <h2>How we help you get ready</h2>
-        <p>Not just a mock call — a full feedback loop designed to make you measurably better before the real interview.</p>
-      </div>
-      <div class="features">
-        <div class="feature reveal d1"><div class="fi">👨‍💻</div><h4>Real MNC Panelists</h4><p>Interviews taken by engineers who actually conduct hiring interviews at top product companies.</p></div>
-        <div class="feature reveal d1"><div class="fi">📝</div><h4>Honest Feedback</h4><p>A clear breakdown of your strengths, gaps and exactly what to fix — nothing sugar-coated.</p></div>
-        <div class="feature reveal d2"><div class="fi">🎥</div><h4>Real Interview Feel</h4><p>Timed, pressure-tested sessions that mirror the format and difficulty of the real thing.</p></div>
-        <div class="feature reveal d2"><div class="fi">📈</div><h4>Improvement Plan</h4><p>Leave every session knowing your next steps and what to practice before you interview.</p></div>
-        <div class="feature reveal d3"><div class="fi">💬</div><h4>Doubt Support</h4><p>Ask questions and clear doubts anytime via our WhatsApp community — directly with the panel.</p></div>
-        <div class="feature reveal d3"><div class="fi">🔁</div><h4>Easy Rescheduling</h4><p>Life happens. Reschedule your slot easily by pinging us on the community — no hassle.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRUST STRIP -->
-  <section class="trust">
-    <div class="wrap">
-      <div class="trust-grid">
-        <div class="trust-item reveal"><div class="ti-num">1:1</div><p>Personal mock sessions</p></div>
-        <div class="trust-item reveal d1"><div class="ti-num">MNC</div><p>Working professional panel</p></div>
-        <div class="trust-item reveal d2"><div class="ti-num">2 Free</div><p>System Design rounds</p></div>
-        <div class="trust-item reveal d3"><div class="ti-num">₹100</div><p>DSA &amp; extra rounds</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHATSAPP COMMUNITY -->
-  <section id="community">
-    <div class="wrap">
-      <div class="wa-card reveal">
-        <div class="wa-emoji">💬</div>
-        <h2>Join our WhatsApp Community</h2>
-        <p>Connect directly with the panel for doubts, rescheduling, and interview tips. Referrals to top companies are also shared here — so join to stay in the loop. This is also where we coordinate your slots and share resources.</p>
-        <a href="https://chat.whatsapp.com/Cp7CbosN3auKimBc0pOOmK" target="_blank" rel="noopener" class="btn btn-wa">Join the Community →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCHEDULE -->
-  <section id="schedule">
-    <div class="wrap">
-      <div class="schedule-box reveal">
-        <span class="eyebrow" style="color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:.8rem;">Book your slot</span>
-        <h2>Schedule your mock interview</h2>
-        <p>Fill the quick form and we'll confirm your slot on WhatsApp. Your first 2 System Design rounds are free; after that it's ₹100 per round, same as DSA.</p>
-
-        <div class="schedule-steps">
-          <div class="step"><div class="num">1</div><p>Fill the scheduling form</p></div>
-          <div class="step"><div class="num">2</div><p>We confirm your slot on WhatsApp</p></div>
-          <div class="step"><div class="num">3</div><p>Attend &amp; get detailed feedback</p></div>
-        </div>
-
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf-Z9XuMUzhVaW1pZOvY3xBmd73n-SiPe5wjU8mBEdDPNh5tw/viewform?usp=header" target="_blank" rel="noopener" class="btn btn-primary">Open Scheduling Form →</a>
-
-        <p class="note">💡 No money is taken upfront to schedule. The ₹100 fee (DSA, and System Design after the first 2 free rounds) is paid via QR only after your slot is confirmed.</p>
-        <p class="note">❤️ Giving back: 50% of every ₹100 DSA fee is donated to a nearby orphanage.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="wrap">
-      <div class="foot-grid">
-        <div class="logo"><span class="dot"></span> MockReady</div>
-        <div class="foot-links">
-          <a href="#interviews">Interviews</a>
-          <a href="#why">Why Us</a>
-          <a href="#community">Community</a>
-          <a href="#schedule">Schedule</a>
-          <a href="https://chat.whatsapp.com/Cp7CbosN3auKimBc0pOOmK" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-      </div>
-      <p class="copy">© <span id="year"></span> MockReady · Mock interviews with working MNC professionals. Built for candidates, by engineers.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Footer year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Smooth scroll for in-page anchor links, offset for the sticky header
-    const headerEl = document.querySelector("header");
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (e) => {
-        const targetId = link.getAttribute("href");
-        if (targetId === "#") return;
-        const target = document.querySelector(targetId);
-        if (!target) return;
-        e.preventDefault();
-        const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
-        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-        window.scrollTo({ top, behavior: "smooth" });
-      });
+  const headerEl = document.querySelector("header");
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const targetId = link.getAttribute("href");
+      if (targetId === "#") return;
+      const target = document.querySelector(targetId);
+      if (!target) return;
+      e.preventDefault();
+      const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: "smooth" });
     });
+  });
 
-    // Make interview cards clickable → scroll to the schedule section
-    const scheduleSection = document.querySelector("#schedule");
-    document.querySelectorAll("#interviews .card").forEach((card) => {
-      card.style.cursor = "pointer";
-      card.addEventListener("click", (e) => {
-        if (e.target.closest("a")) return; // let real links/buttons handle their own click
-        if (!scheduleSection) return;
-        const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
-        const top = scheduleSection.getBoundingClientRect().top + window.pageYOffset - offset;
-        window.scrollTo({ top, behavior: "smooth" });
-      });
+  const scheduleSection = document.querySelector("#schedule");
+  document.querySelectorAll("#interviews .icard").forEach((card) => {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      if (!scheduleSection) return;
+      const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
+      const top = scheduleSection.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: "smooth" });
     });
-
-    // Scroll reveal
-    const revealEls = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach((el) => observer.observe(el));
-  </script>
+  });
+</script>
 </body>
 </html>
