@@ -361,6 +361,19 @@
       });
     });
 
+    // Make interview cards clickable → scroll to the schedule section
+    const scheduleSection = document.querySelector("#schedule");
+    document.querySelectorAll("#interviews .card").forEach((card) => {
+      card.style.cursor = "pointer";
+      card.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return; // let real links/buttons handle their own click
+        if (!scheduleSection) return;
+        const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
+        const top = scheduleSection.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: "smooth" });
+      });
+    });
+
     // Scroll reveal
     const revealEls = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver((entries) => {
