@@ -211,8 +211,8 @@
         <a href="#interviews" class="btn btn-ghost">See Options</a>
       </div>
       <div class="hero-stats reveal d3">
-        <div class="stat"><h3>Free</h3><p>System Design mocks</p></div>
-        <div class="stat"><h3>₹100</h3><p>DSA mock interview</p></div>
+        <div class="stat"><h3>2 Free</h3><p>System Design rounds</p></div>
+        <div class="stat"><h3>₹100</h3><p>DSA &amp; further rounds</p></div>
         <div class="stat"><h3>MNC</h3><p>Working panelists</p></div>
       </div>
     </div>
@@ -228,10 +228,10 @@
       </div>
       <div class="cards">
         <div class="card reveal d1">
-          <span class="ribbon">FREE</span>
+          <span class="ribbon">2 FREE</span>
           <div class="icon blue">🧩</div>
           <h3>System Design Interview</h3>
-          <div class="price-tag price-free"><span class="amt">Free</span></div>
+          <div class="price-tag price-free"><span class="amt">First 2 Free</span><span style="font-size:.95rem;color:var(--muted)">then ₹100 / round</span></div>
           <p style="color:var(--muted)">Whiteboard a real-world system with a senior engineer and learn how top companies expect you to think.</p>
           <ul>
             <li>Scalability, trade-offs &amp; bottleneck analysis</li>
@@ -253,6 +253,7 @@
             <li>Approach, edge cases &amp; clean code review</li>
             <li>Actionable improvement plan</li>
           </ul>
+          <p style="font-size:.82rem;color:var(--accent-2);margin-bottom:16px;">❤️ 50% of every ₹100 paid is donated to a nearby orphanage.</p>
           <a href="#schedule" class="btn btn-primary">Schedule DSA →</a>
         </div>
       </div>
@@ -284,8 +285,8 @@
       <div class="trust-grid">
         <div class="trust-item reveal"><div class="ti-num">1:1</div><p>Personal mock sessions</p></div>
         <div class="trust-item reveal d1"><div class="ti-num">MNC</div><p>Working professional panel</p></div>
-        <div class="trust-item reveal d2"><div class="ti-num">100%</div><p>Free System Design mocks</p></div>
-        <div class="trust-item reveal d3"><div class="ti-num">₹100</div><p>Affordable DSA rounds</p></div>
+        <div class="trust-item reveal d2"><div class="ti-num">2 Free</div><p>System Design rounds</p></div>
+        <div class="trust-item reveal d3"><div class="ti-num">₹100</div><p>DSA &amp; extra rounds</p></div>
       </div>
     </div>
   </section>
@@ -296,7 +297,7 @@
       <div class="wa-card reveal">
         <div class="wa-emoji">💬</div>
         <h2>Join our WhatsApp Community</h2>
-        <p>Connect directly with the panel for doubts, rescheduling, and interview tips. This is also where we coordinate your slots and share resources.</p>
+        <p>Connect directly with the panel for doubts, rescheduling, and interview tips. Referrals to top companies are also shared here — so join to stay in the loop. This is also where we coordinate your slots and share resources.</p>
         <a href="https://chat.whatsapp.com/Cp7CbosN3auKimBc0pOOmK" target="_blank" rel="noopener" class="btn btn-wa">Join the Community →</a>
       </div>
     </div>
@@ -308,7 +309,7 @@
       <div class="schedule-box reveal">
         <span class="eyebrow" style="color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:.8rem;">Book your slot</span>
         <h2>Schedule your mock interview</h2>
-        <p>Fill the quick form and we'll confirm your slot on WhatsApp. System Design is free; DSA is just ₹100.</p>
+        <p>Fill the quick form and we'll confirm your slot on WhatsApp. Your first 2 System Design rounds are free; after that it's ₹100 per round, same as DSA.</p>
 
         <div class="schedule-steps">
           <div class="step"><div class="num">1</div><p>Fill the scheduling form</p></div>
@@ -318,7 +319,8 @@
 
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSf-Z9XuMUzhVaW1pZOvY3xBmd73n-SiPe5wjU8mBEdDPNh5tw/viewform?usp=header" target="_blank" rel="noopener" class="btn btn-primary">Open Scheduling Form →</a>
 
-        <p class="note">💡 No money is taken upfront to schedule. For DSA interviews, the ₹100 fee is paid via QR only after your slot is confirmed. System Design interviews are completely free.</p>
+        <p class="note">💡 No money is taken upfront to schedule. The ₹100 fee (DSA, and System Design after the first 2 free rounds) is paid via QR only after your slot is confirmed.</p>
+        <p class="note">❤️ Giving back: 50% of every ₹100 DSA fee is donated to a nearby orphanage.</p>
       </div>
     </div>
   </section>
@@ -343,6 +345,21 @@
   <script>
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Smooth scroll for in-page anchor links, offset for the sticky header
+    const headerEl = document.querySelector("header");
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const targetId = link.getAttribute("href");
+        if (targetId === "#") return;
+        const target = document.querySelector(targetId);
+        if (!target) return;
+        e.preventDefault();
+        const offset = (headerEl ? headerEl.offsetHeight : 0) + 12;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: "smooth" });
+      });
+    });
 
     // Scroll reveal
     const revealEls = document.querySelectorAll(".reveal");
